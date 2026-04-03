@@ -2,10 +2,10 @@ package com.example.cinetrack.network
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.cinetrack.model.Movie
 import com.example.cinetrack.model.MovieDetail
 import org.json.JSONArray
 import org.json.JSONObject
+import androidx.core.content.edit
 
 object WatchListRepo {
     private const val PREFS_NAME = "watchlist_prefs"
@@ -32,7 +32,7 @@ object WatchListRepo {
         }
 
         current.put(movieJson)
-        prefs.edit().putString(KEY_WATCHLIST, current.toString()).apply()
+        prefs.edit { putString(KEY_WATCHLIST, current.toString()) }
     }
 
     fun removeMovie(context: Context, movieId: Int){
@@ -47,7 +47,7 @@ object WatchListRepo {
             }
         }
 
-        prefs.edit().putString(KEY_WATCHLIST, updated.toString()).apply()
+        prefs.edit { putString(KEY_WATCHLIST, updated.toString()) }
     }
 
     fun isInWatchList(context: Context, movieId: Int): Boolean{
@@ -100,7 +100,7 @@ object WatchListRepo {
             }
         }
 
-        prefs.edit().putString(KEY_WATCHLIST, current.toString()).apply()
+        prefs.edit { putString(KEY_WATCHLIST, current.toString()) }
     }
 
     private fun getWatchlistJson(prefs: SharedPreferences): JSONArray{

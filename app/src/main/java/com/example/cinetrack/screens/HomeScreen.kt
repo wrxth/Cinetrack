@@ -38,7 +38,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.example.cinetrack.model.Movie
 import com.example.cinetrack.network.ImageLoader
 import com.example.cinetrack.network.MovieRepo
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -62,22 +61,18 @@ fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
     val landscape = isLandscape()
 
-    // Pagination state
     var currentPage by remember { mutableStateOf(1) }
     var isLoadingMore by remember { mutableStateOf(false) }
 
-    // State of the list/grid scroll
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
 
-    // Load initial page
     LaunchedEffect(Unit) {
         MovieRepo.fetchPopularMovies(context, page = 1) { fetchedMovies ->
             movies.addAll(fetchedMovies)
         }
     }
 
-    // Detect when user is near the bottom
     val shouldLoadMore by remember {
         derivedStateOf {
             val lastVisibleItem = if (landscape) {
@@ -94,7 +89,6 @@ fun HomeScreen(navController: NavController) {
         }
     }
 
-    // Trigger load when near bottom
     LaunchedEffect(shouldLoadMore) {
         if (shouldLoadMore && !isLoadingMore) {
             isLoadingMore = true
@@ -168,7 +162,7 @@ fun isLandscape(): Boolean {
 fun MovieItem(movie: Movie, onClick: () -> Unit, onAddToWatchlist: (() -> Unit)? = null) {
     val context = LocalContext.current
     val landscape = isLandscape()
-    var isInWatchlist by remember {
+    var isInWatchlist: Boolean by remember {
         mutableStateOf(WatchListRepo.isInWatchList(context, movie.id))
     }
 
@@ -180,7 +174,6 @@ fun MovieItem(movie: Movie, onClick: () -> Unit, onAddToWatchlist: (() -> Unit)?
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         if (landscape) {
-            // Landscape: poster on top, info below
             Column(modifier = Modifier.padding(8.dp)) {
                 AndroidView(
                     factory = { ctx -> ImageView(ctx).apply {

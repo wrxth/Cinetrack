@@ -1,6 +1,7 @@
 package com.example.cinetrack.network
 
 import android.content.Context
+import androidx.core.content.edit
 
 object SettingsRepo {
 
@@ -10,9 +11,9 @@ object SettingsRepo {
 
     fun saveProfilePicture(context: Context, uri: String) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putString(KEY_PROFILE_PICTURE, uri)
-            .apply()
+            .edit {
+                putString(KEY_PROFILE_PICTURE, uri)
+            }
     }
 
     fun getProfilePicture(context: Context): String? {
@@ -22,9 +23,9 @@ object SettingsRepo {
 
     fun saveDarkMode(context: Context, enabled: Boolean) {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            .edit()
-            .putBoolean(KEY_DARK_MODE, enabled)
-            .apply()
+            .edit {
+                putBoolean(KEY_DARK_MODE, enabled)
+            }
     }
 
     fun getDarkMode(context: Context): Boolean {

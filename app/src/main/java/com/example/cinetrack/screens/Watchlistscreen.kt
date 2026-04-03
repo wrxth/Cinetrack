@@ -30,7 +30,6 @@ fun WatchlistScreen(navController: NavController) {
     val context = LocalContext.current
     val movies = remember { mutableStateListOf<MovieDetail>() }
 
-    // Reload watchlist every time screen is opened
     LaunchedEffect(Unit) {
         movies.clear()
         movies.addAll(WatchListRepo.getWatchList(context))
